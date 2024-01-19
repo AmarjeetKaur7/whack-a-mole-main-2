@@ -4,8 +4,24 @@
 }
 html, body{
     height: 100%;
+    overflow: hidden;
 }
-body{
+
+/* .startScreen {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+   
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: url('assets/images/start.png') center center no-repeat;
+    background-size: cover;
+   } */
+
+.whack-a-mole-container{
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(58, 129, 0);
     color: #fff;
@@ -14,13 +30,27 @@ body{
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+.start-page{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(58, 129, 0);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 .score{
     /* font-size: 4em; */
     margin-bottom: 2rem;
 }
 .board{
-    height: 300px;
+    height: 300px; 
     width: 300px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -54,8 +84,8 @@ body{
 }
 
 .cursor{
-    height: 110px;
-    width: 100px;
+    height: 80px;
+    width: 70px;
     position: absolute;
     top: 100px;
     left: 100px;
@@ -68,3 +98,228 @@ body{
 .cursor.active{
     transform: translate(-20%, -20%) rotate(-45deg);
 }
+
+/* Modal CSS */
+
+
+.custom-modal-dialog {
+    max-width: 100%; 
+    width: 50vw; 
+    
+ }
+ 
+ .modal-content {
+ /* background-color: #aae4f3;  */
+ background-color: white;
+ border-radius: 50px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow */
+ background-size: cover; /* or 'contain' based on your preference */
+ border: 5px solid rgb(58, 129, 0);
+ /* border-radius: 10px; */
+ /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+ width:100%; /* Set your desired width */
+ max-width: 100%; 
+ 
+ }
+ 
+ 
+ 
+ .modal-header {
+ /* border-radius: 50px; */
+ height: 9vh;
+ overflow: hidden;
+
+ }
+ 
+ 
+ 
+ 
+ /* #timer-icon {
+ 
+ width: 5vh;
+ height: 5vh;
+ position: absolute;
+ left:0%;
+ z-index: 1;
+ } */
+ 
+ 
+ .modal-body {
+ text-align: center;
+ }
+ 
+ 
+ #contentDiv{
+ height: auto;
+ /* max-height: 25vh; */
+ /* margin: 2%; */
+ margin: 0% 0% 1% 0%;
+
+ 
+ }
+ 
+ 
+ 
+ @keyframes fadeInLeft {
+ from {
+ opacity: 0;
+ transform: translateX(-100%);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+ 
+ @keyframes bounce {
+ 0%, 20%, 50%, 80%, 100% {
+ transform: translateY(0);
+ }
+ 40% {
+ transform: translateY(-10px);
+ }
+ 60% {
+ transform: translateY(-5px);
+ }
+ }
+ 
+ .radio-container label {
+   margin-bottom: 10px;
+   border-radius: 17px;
+   /* font-size: 21px; */
+   background-color: rgb(233, 236, 210);
+   color: rgb(58, 129, 0);
+   padding: 10px;
+   cursor: pointer;
+   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+   text-align: left;
+   width: 100%;
+   box-sizing: border-box;
+   animation: fadeInLeft 0.5s ease;
+   border: 5px solid rgb(58, 129, 0);
+   font-weight: 600;
+}
+ 
+ .radio-container label:hover {
+ background-color: #a6e0a1;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+ /* transform: scale(1.1);  */
+ }
+ 
+ 
+ 
+ 
+ input[type="radio"] {
+    accent-color:  rgb(58, 129, 0); 
+ }
+ input[type="radio"]:hover{
+    accent-color:  rgb(123, 236, 25); 
+ }
+ 
+ #continueButton {
+     color: white;
+    background-color:rgb(58, 129, 0);
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+     
+ }
+ 
+ 
+ 
+ #continueButton:hover {
+ background-color: #808180; /* Change background color on hover */
+ }
+ 
+ 
+ #error-text {
+ color: #c30202; 
+ font-size: 1.5rem; /* Font size */
+ margin-top: 10px; /* Margin at the top */
+ font-weight: 500;
+ text-align: center;
+ }
+ 
+ 
+ .hide {
+    display: none;
+ }
+ 
+ .radio-container {
+    padding: 0% 3%;
+ }
+  
+ .modal-body {
+    text-align: center;
+ }
+ 
+ #questionText {
+    /* font-size: 1.5em; */
+    font-weight: 600;
+    margin-bottom: 0.1px;
+    color: white;
+    text-align: left;
+    background-color: rgb(58, 129, 0);
+    border-radius: 17px;
+    padding: 0.5rem;
+    height: auto;
+    animation: fadeInLeft 0.5s ease;
+
+ }
+ 
+ #error-text {
+    color: #f01111;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    font-weight: 500;
+    text-align: center;
+ }
+ 
+ .timerContainer {
+    color: #0c0b0b;
+    font-size: 1.3em;
+    background-color: white;
+    border: 5px solid rgb(58, 129, 0);
+    /* position: relative; */
+    /* padding: 5px; */
+    box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
+    border-radius: 30px;
+    width: 20%;
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInLeft 0.5s ease;
+    /* gap: 1em; */
+    /* padding-right:10px; */
+    /* padding: 10px; */
+    /* text-align: end; */
+ }
+ 
+ 
+ .modal-body {
+    text-align: center;
+ }
+
+ #error-text {
+    color: #f01111;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    font-weight: 500;
+    text-align: center;
+ }
+
+ .modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #timer-icon {
+   width: 5vh;
+   height: 5vh;
+   position: absolute;
+   left:0%;
+   z-index: 1;
+   }
