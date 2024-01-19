@@ -14,7 +14,10 @@ let id_game = urlParams.get("idgame");
 let gameAssesmentId = urlParams.get("gameassid");
 let currentQuestionIndex = 0;
 let UID = [];
-let questionList = []; // Declare questionList globally
+let questionList = []; 
+let index = 0;
+let timerInterval;
+
 
 //url https://www.playtolearn.in/Assessment/?userid=@userid&M2ostAssessmentId=@asid&idgame=10&gameassid
 async function getIdUser(
@@ -66,57 +69,57 @@ async function initializePage() {
   }
 }
 
-let getResponse;
+// let getResponse;
 
-async function saveAssessment(data) {
-  let postData = data;
+// async function saveAssessment(data) {
+//   let postData = data;
 
-  const baseUrl = "https://www.playtolearn.in/";
-  const endpoint = "Mini_games_beta/api/assessmentdetailuserlog";
-  const url = baseUrl + endpoint;
+//   const baseUrl = "https://www.playtolearn.in/";
+//   const endpoint = "Mini_games_beta/api/assessmentdetailuserlog";
+//   const url = baseUrl + endpoint;
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Add any additional headers if required
-    },
-    body: JSON.stringify(postData),
-  });
+//   const response = await fetch(url, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // Add any additional headers if required
+//     },
+//     body: JSON.stringify(postData),
+//   });
 
-  // if (!response.ok) {
-  // throw new Error(`Network response was not ok, status code: ${response.status}`);
-  // }
-  console.log("response", response);
-  const responseData = await response.json();
+//   // if (!response.ok) {
+//   // throw new Error(`Network response was not ok, status code: ${response.status}`);
+//   // }
+//   console.log("response", response);
+//   const responseData = await response.json();
 
-  return responseData;
-}
-async function saveAssessmentMasterLog(data) {
-  let postData = data;
-  console.log(JSON.stringify(postData));
+//   return responseData;
+// }
+// async function saveAssessmentMasterLog(data) {
+//   let postData = data;
+//   console.log(JSON.stringify(postData));
 
-  const baseUrl = "https://www.playtolearn.in/";
-  const endpoint = "Mini_games_beta/api/gameusermasterlog";
-  const url = baseUrl + endpoint;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Add any additional headers if required
-    },
-    body: JSON.stringify(postData),
-  });
+//   const baseUrl = "https://www.playtolearn.in/";
+//   const endpoint = "Mini_games_beta/api/gameusermasterlog";
+//   const url = baseUrl + endpoint;
+//   const response = await fetch(url, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // Add any additional headers if required
+//     },
+//     body: JSON.stringify(postData),
+//   });
 
-  // if (!response.ok) {
-  // throw new Error(`Network response was not ok, status code: ${response.status}`);
+//   // if (!response.ok) {
+//   // throw new Error(`Network response was not ok, status code: ${response.status}`);
 
-  // }
-  // console.log('response',response);
-  const responseData = await response.json();
+//   // }
+//   // console.log('response',response);
+//   const responseData = await response.json();
 
-  return responseData;
-}
+//   return responseData;
+// }
 
 const sound = new Audio("assets/smash.mp3");
 
@@ -184,63 +187,164 @@ function openModal() {
 function closeModal() {
   isGamePaused = false;
   document.getElementById("questionModal").style.display = "none";
+  clearInterval(timerInterval); 
+
 }
 
 closeModal();
 
 document.getElementById("timer").innerHTML = "30 sec";
 
-let timerInterval;
+
+// function startTimer() {
+//   let timer = 30;
+
+//   // Set the timer duration in seconds
+//   timerInterval = setInterval(() => {
+
+//     if (timer > 0) {
+//       document.getElementById("timer").innerHTML = `${timer} Sec`;
+//       timer--;
+//     } else {
+//         clearInterval(timerInterval);
+//         closeModal();
+//     }
+//   }, 1000);
+
+// }
+
 
 function startTimer() {
-  let timer = 30;
-
-  // Set the timer duration in seconds
-  timerInterval = setInterval(() => {
-    timer--;
-
-    if (timer >= 0) {
+    let timer = 30;
+  
+    function updateTimerDisplay() {
       document.getElementById("timer").innerHTML = `${timer} Sec`;
-    } else {
-      clearInterval(timerInterval);
     }
-  }, 1000);
-}
+  
+    // Set the timer duration in seconds
+    updateTimerDisplay();
+    
+    timerInterval = setInterval(() => {
+      if (timer > 0) {
+        timer--;  // Update the timer before decrementing
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        closeModal();
+        // Reset the timer to 30 when it reaches 0 or closes before reaching 0
+        timer = 30;
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+  
 
-let index = 0;
 function displayQuestion() {
-  const currentQuestion = questionList[index]; // Use a different variable name to avoid conflicts
+  const currentQuestion = questionList[index]; 
   //   console.log(currentQuestion)
   const questionText = document.getElementById("questionText");
   const optionsContainer = document.querySelector(".radio-container");
   const errorText = document.getElementById("error-text");
 
-  if (currentQuestion) {
-    // Display question text
-    questionText.textContent = currentQuestion.Assessment_Question;
+//   if (currentQuestion) {
+//     // Display question text
+//     questionText.textContent = currentQuestion.Assessment_Question;
 
-    // Clear previous options
-    optionsContainer.innerHTML = "";
+//     // Clear previous options
+//     optionsContainer.innerHTML = "";
 
-    // Display answer options
-    currentQuestion.optionList.forEach((option, optionIndex) => {
-      const label = document.createElement("label");
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "group";
-      input.value = optionIndex + 1; // Adding 1 to make the value unique for each option
-      label.appendChild(input);
-      label.appendChild(document.createTextNode(option.Answer_Description));
-      optionsContainer.appendChild(label);
-    });
+//     // Display answer options
+//     currentQuestion.optionList.forEach((option, optionIndex) => {
+//       const label = document.createElement("label");
+//       const input = document.createElement("input");
+//       input.type = "radio";
+//       input.name = "group";
+//       input.value = optionIndex + 1; // Adding 1 to make the value unique for each option
+//       label.appendChild(input);
+//       label.appendChild(document.createTextNode(option.Answer_Description));
+//       optionsContainer.appendChild(label);
+//       clearInterval(timerInterval);
+//       timer = 30;
+//     });
 
-    // Clear error text
-    errorText.textContent = "";
-  } else {
+//     // Clear error text
+//     errorText.textContent = "";
+//   } 
+
+  
+    if (currentQuestion) {
+      // Display question text
+      questionText.textContent = currentQuestion.Assessment_Question;
+  
+      // Clear previous options
+      optionsContainer.innerHTML = "";
+  
+      // Display answer options
+      currentQuestion.optionList.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "group";
+        input.value = optionIndex + 1; // Adding 1 to make the value unique for each option
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option.Answer_Description));
+        optionsContainer.appendChild(label);
+      });
+  
+      // Clear error text
+      errorText.textContent = "";
+  
+      // Get the assessment type
+      const assessmentType = currentQuestion.Assessment_Type;
+  
+      // Depending on the assessment type, add the corresponding content
+      const contentDiv = document.getElementById("contentDiv");
+  
+      // Clear previous content
+      contentDiv.innerHTML = "";
+  
+      if (assessmentType === 1) {
+        // Add image
+        const imageUrl = currentQuestion.assessment_question_url;
+        const imageElement = document.createElement("img");
+        imageElement.src = imageUrl;
+        imageElement.alt = "Image Alt Text";
+        imageElement.style.width = "100%";
+        imageElement.style.maxWidth = "100%";
+        imageElement.style.height = "26vh";
+        imageElement.style.borderRadius = "10px";
+        contentDiv.appendChild(imageElement);
+      } else if (assessmentType === 2) {
+        // Add audio
+        const audioUrl = currentQuestion.assessment_question_url;
+        const audioElement = document.createElement("audio");
+        audioElement.controls = true;
+        audioElement.src = audioUrl;
+        contentDiv.appendChild(audioElement);
+      } else if (assessmentType === 3) {
+        // Add video
+        const videoUrl = currentQuestion.assessment_question_url;
+        const videoElement = document.createElement("video");
+        videoElement.controls = true;
+        videoElement.src = videoUrl;
+        videoElement.style.width = "100%";
+        videoElement.style.maxWidth = "100%";
+        videoElement.style.height = "26vh";
+        contentDiv.appendChild(videoElement);
+      }
+    }
+  
+  
+  else {
     // If there are no more questions, display "Game Over" message
     questionText.textContent = "Game Over. All questions displayed.";
     optionsContainer.innerHTML = ""; // Clear any previous options
     document.getElementById("continueButton").style.display = "none"; // Hide the continue button
+    document.getElementById("timer").style.display = "none";
+    document.querySelector(".timerContainer").style.display = "none";
+    document.querySelector(".modal-footer").style.display = "none";
+    document.querySelector(".modal-header").style.display = "none"
+
   }
 }
 
@@ -256,11 +360,11 @@ document
       const selectedOptionValue = selectedOption.value;
       closeModal();
       index++;
+      clearInterval(timerInterval); 
       displayQuestion();
-      saveAssessment(selectedOptionValue);
+    //   saveAssessment(selectedOptionValue);
     } else {
       document.getElementById("error-text").textContent =
         "Please select an option.";
     }
   });
-  
