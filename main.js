@@ -2,7 +2,6 @@ const cursor = document.querySelector(".cursor");
 const holes = [...document.querySelectorAll(".hole")];
 const scoreEl = document.querySelector(".score span");
 let score = 0;
-// let isGamePaused = false;
 const timerElement = document.getElementById("timer");
 let timerSeconds = 30;
 var url = new URL(window.location.href);
@@ -157,7 +156,7 @@ function run() {
   timer = setTimeout(() => {
     hole.removeChild(img);
     run();
-  }, 1000);
+  }, 1500);
 }
 
 run();
@@ -176,16 +175,13 @@ window.addEventListener("mouseup", () => {
 });
 
 function openModal() {
-  isGamePaused = true;
   document.getElementById("questionModal").style.display = "block";
-
   displayQuestion();
   clearInterval(timerInterval);
   startTimer();
 }
 
 function closeModal() {
-  isGamePaused = false;
   document.getElementById("questionModal").style.display = "none";
   clearInterval(timerInterval); 
 

@@ -282,8 +282,6 @@ html, body{
     font-size: 1.3em;
     background-color: white;
     border: 5px solid rgb(58, 129, 0);
-    /* position: relative; */
-    /* padding: 5px; */
     box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
     border-radius: 30px;
     width: 30%;
@@ -292,10 +290,7 @@ html, body{
     justify-content: center;
     align-items: center;
     animation: fadeInLeft 0.5s ease;
-    /* gap: 1em; */
-    /* padding-right:10px; */
-    /* padding: 10px; */
-    /* text-align: end; */
+    
  }
  
  
