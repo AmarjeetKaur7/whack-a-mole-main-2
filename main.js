@@ -16,6 +16,7 @@ let UID = [];
 let questionList = []; 
 let index = 0;
 let timerInterval;
+let getResponse;
 
 
 //url https://www.playtolearn.in/Assessment/?userid=@userid&M2ostAssessmentId=@asid&idgame=10&gameassid
@@ -67,6 +68,61 @@ async function initializePage() {
     // console.error('Error during initialization:', error.message);
   }
 }
+
+
+async function saveAssessment(data) {
+  try {
+    let postData = data;
+
+      const baseUrl = "https://www.playtolearn.in/";
+      const endpoint = "Mini_games_beta/api/assessmentdetailuserlog";
+      const url = baseUrl + endpoint;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if required
+      },
+      body: JSON.stringify(postData),
+    });
+    console.log('response', response);
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Save Assessment Error:', error.message);
+    throw error;
+  }
+}
+
+async function saveAssessmentMasterLog(data) {
+  try {
+    let postData = data;
+    console.log(JSON.stringify(postData));
+  
+    const baseUrl = "https://www.playtolearn.in/";
+    const endpoint = "Mini_games_beta/api/gameusermasterlog";
+    const url = baseUrl + endpoint;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if required
+      },
+      body: JSON.stringify(postData),
+    });
+    console.log('response', response);
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Save Assessment Master Log Error:', error.message);
+    throw error;
+  }
+}
+
+
+
 
 // let getResponse;
 
@@ -191,25 +247,6 @@ closeModal();
 
 document.getElementById("timer").innerHTML = "30 sec";
 
-
-// function startTimer() {
-//   let timer = 30;
-
-//   // Set the timer duration in seconds
-//   timerInterval = setInterval(() => {
-
-//     if (timer > 0) {
-//       document.getElementById("timer").innerHTML = `${timer} Sec`;
-//       timer--;
-//     } else {
-//         clearInterval(timerInterval);
-//         closeModal();
-//     }
-//   }, 1000);
-
-// }
-
-
 function startTimer() {
     let timer = 30;
   
@@ -297,27 +334,27 @@ function displayQuestion() {
       const contentDiv = document.getElementById("contentDiv");
   
       // Clear previous content
-      contentDiv.innerHTML = "";
+      contentDiv.innerHTML = ""; 
   
-      if (assessmentType === 1) {
+      if (assessmentType == 1) {
         // Add image
         const imageUrl = currentQuestion.assessment_question_url;
         const imageElement = document.createElement("img");
-        imageElement.src = imageUrl;
+        // imageElement.src = imageUrl;
         imageElement.alt = "Image Alt Text";
         imageElement.style.width = "100%";
         imageElement.style.maxWidth = "100%";
-        imageElement.style.height = "26vh";
+        imageElement.style.height = "24vh";
         imageElement.style.borderRadius = "10px";
         contentDiv.appendChild(imageElement);
-      } else if (assessmentType === 2) {
+      } else if (assessmentType == 2) {
         // Add audio
         const audioUrl = currentQuestion.assessment_question_url;
         const audioElement = document.createElement("audio");
         audioElement.controls = true;
         audioElement.src = audioUrl;
         contentDiv.appendChild(audioElement);
-      } else if (assessmentType === 3) {
+      } else if (assessmentType == 3) {
         // Add video
         const videoUrl = currentQuestion.assessment_question_url;
         const videoElement = document.createElement("video");
@@ -327,6 +364,9 @@ function displayQuestion() {
         videoElement.style.maxWidth = "100%";
         videoElement.style.height = "26vh";
         contentDiv.appendChild(videoElement);
+      }else {
+        // Handle other assessment types or provide a default behavior
+        contentDiv.textContent = 'Unsupported assessment type';
       }
     }
   
@@ -340,8 +380,56 @@ function displayQuestion() {
     document.querySelector(".timerContainer").style.display = "none";
     document.querySelector(".modal-footer").style.display = "none";
     document.querySelector(".modal-header").style.display = "none"
+    // saveAssessment(selectedOptionValue);
+    console.log('CurrentQuestion',currentQuestion);
+    let assessmentData = [];
+    let assementDataForMasterLog = [];
+    // if (currentQuestion) {
+      const mergedData = assessmentData.map((game, index) => ({ ...game, ...assessmentObject[index] }));
+      console.log('mergedData', mergedData);
+    
+      
+    
+      var sum = 0;
+      for (let i = 0; i < mergedData.length; i++) {
+        sum = mergedData[i].AchieveScore + sum;
+    
+        let model = {
+          ID_ORGANIZATION: ParamOrgID,
+          id_user: UID[0].Id_User,
+          Id_Assessment: mergedData[i].Id_Assessment,
+          Id_Game: mergedData[i].Id_Game,
+          attempt_no: mergedData[i].allow_attempt,
+          id_question: mergedData[i].Id_Assessment_question,
+          is_right: mergedData[i].isRightAns,
+          score: mergedData[i].AchieveScore,
+          Id_Assessment_question_ans: mergedData[i].id_question,
+          Time: mergedData[i].Timer,
+          M2ostAssessmentId: M2OstAssesmentID
+        };
+        
+        let modelForGameMasterLog = {
+          ID_ORGANIZATION: ParamOrgID,
+          id_user: UID[0].Id_User,
+          Id_Room: mergedData[0].Id_Assessment,
+          Id_Game: mergedData[0].Id_Game,
+          attempt_no: mergedData[0].allow_attempt,
+          score: userScore,  // Replace with the appropriate property
+        };
+        
+    
+        assessmentData.push(model);
+        assementDataForMasterLog.push(modelForGameMasterLog);
+      }
+    
+      console.log('AssesmentLog', assementDataForMasterLog);
+    
+      // Add API calls here
+      saveAssessment(assessmentData);
+      saveAssessmentMasterLog(assementDataForMasterLog[assementDataForMasterLog.length - 1]);
+    }
 
-  }
+  // }
 }
 
 // Event listener for the continue button
@@ -358,9 +446,14 @@ document
       index++;
       clearInterval(timerInterval); 
       displayQuestion();
-    //   saveAssessment(selectedOptionValue);
-    } else {
+    } 
+    else {
       document.getElementById("error-text").textContent =
         "Please select an option.";
     }
   });
+
+
+
+
+
