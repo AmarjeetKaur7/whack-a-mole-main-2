@@ -2,7 +2,7 @@ const cursor = document.querySelector(".cursor");
 const holes = [...document.querySelectorAll(".hole")];
 let score = 0;
 const timerElement = document.getElementById("timer");
-let timerSeconds = 45;
+let timerSeconds = 10;
 var url = new URL(window.location.href);
 var urlParams = new URLSearchParams(window.location.search);
 let paramUserID = urlParams.get("Email");
@@ -180,10 +180,10 @@ function closeModal() {
 }
 closeModal();
 
-document.getElementById("timer").innerHTML = "45 sec";
+document.getElementById("timer").innerHTML = "10 sec";
 
 function startTimer() {
-    let timer = 45;
+    let timer = 10;
     function updateTimerDisplay() {
       document.getElementById("timer").innerHTML = `${timer} Sec`;
     }
@@ -198,8 +198,8 @@ function startTimer() {
       } else {
         clearInterval(timerInterval);
         closeModal();
-        // Reset the timer to 45 when it reaches 0 or closes before reaching 0
-        timer = 45;
+        // Reset the timer to 10 when it reaches 0 or closes before reaching 0
+        timer = 10;
         updateTimerDisplay();
         index++;
       }
@@ -298,18 +298,92 @@ function displayQuestion() {
 
 };
 
+// function onGameOver() {
+//     // Check if all questions have been answered
+//         let saveAssessmentData = [];
+//         let assementDataForMasterLog = [];
+
+//         const mergedData = assessmentData.map((game) => ({ ...game }));
+
+//         for (let i = 0; i < mergedData.length; i++) {
+//             const currentQuestionData = mergedData[i];
+//             const selectedOptionIndex = currentQuestionData.selectedOptionIndex;
+//             console.log("Index ",selectedOptionIndex);
+//             if (selectedOptionIndex !== null){
+//                 let model = {
+//                     ID_ORGANIZATION: ParamOrgID,
+//                     id_user: UID[0].Id_User,
+//                     Id_Assessment: currentQuestionData.Id_Assessment,
+//                     Id_Game: currentQuestionData.Id_Game,
+//                     attempt_no: currentQuestionData.allow_attempt,
+//                     id_question: currentQuestionData.Id_Assessment_question,
+//                     is_right: currentQuestionData.optionList[selectedOptionIndex].Right_Ans,
+//                     score: currentQuestionData.optionList[selectedOptionIndex].Score_Coins,
+//                     Id_Assessment_question_ans: currentQuestionData.optionList[selectedOptionIndex].Id_Assessment_question_ans,
+//                     Time: currentQuestionData.Timer,
+//                     M2ostAssessmentId: M2OstAssesmentID
+//                 };
+
+//                 let modelForGameMasterLog = {
+//                     ID_ORGANIZATION: ParamOrgID,
+//                     id_user: UID[0].Id_User,
+//                     Id_Room: mergedData[0].Id_Assessment,
+//                     Id_Game: mergedData[0].Id_Game,
+//                     attempt_no: mergedData[0].allow_attempt,
+//                     score: score,
+//                 };
+
+    
+
+//             saveAssessmentData.push(model);
+//             assementDataForMasterLog.push(modelForGameMasterLog);
+//         }
+//         else{
+//             model = {
+//                 ID_ORGANIZATION: ParamOrgID,
+//                 id_user: UID[0].Id_User,
+//                 Id_Assessment: null,
+//                 Id_Game: currentQuestionData.Id_Game,
+//                 attempt_no: currentQuestionData.allow_attempt,
+//                 id_question: currentQuestionData.Id_Assessment_question,
+//                 is_right: currentQuestionData.optionList[selectedOptionIndex].Right_Ans,
+//                 score: currentQuestionData.optionList[selectedOptionIndex].Score_Coins,
+//                 Id_Assessment_question_ans: null,
+//                 Time: currentQuestionData.Timer,
+//                 M2ostAssessmentId: M2OstAssesmentID
+//             };
+//             modelForGameMasterLog = {
+//                 ID_ORGANIZATION: ParamOrgID,
+//                 id_user: UID[0].Id_User,
+//                 Id_Room: mergedData[0].Id_Assessment,
+//                 Id_Game: mergedData[0].Id_Game,
+//                 attempt_no: mergedData[0].allow_attempt,
+//                 score: score,
+//             };
+//             saveAssessmentData.push(model);
+//             assementDataForMasterLog.push(modelForGameMasterLog);
+//     } 
+    
+//     }
+//         // Add API calls here
+//         saveAssessment(saveAssessmentData);
+//         saveAssessmentMasterLog(assementDataForMasterLog[assementDataForMasterLog.length - 1]);
+    
+// }
+
+
 function onGameOver() {
     // Check if all questions have been answered
-        let saveAssessmentData = [];
-        let assementDataForMasterLog = [];
+    let saveAssessmentData = [];
+    let assementDataForMasterLog = [];
 
-        const mergedData = assessmentData.map((game) => ({ ...game }));
+    const mergedData = assessmentData.map((game) => ({ ...game }));
 
-        for (let i = 0; i < mergedData.length; i++) {
-            const currentQuestionData = mergedData[i];
-            const selectedOptionIndex = currentQuestionData.selectedOptionIndex;
-            console.log(selectedOptionIndex);
-
+    for (let i = 0; i < mergedData.length; i++) {
+        const currentQuestionData = mergedData[i];
+        const selectedOptionIndex = currentQuestionData.selectedOptionIndex;
+        console.log("Index ", selectedOptionIndex);
+        if (selectedOptionIndex !== null) {
             let model = {
                 ID_ORGANIZATION: ParamOrgID,
                 id_user: UID[0].Id_User,
@@ -335,48 +409,126 @@ function onGameOver() {
 
             saveAssessmentData.push(model);
             assementDataForMasterLog.push(modelForGameMasterLog);
+        } else {
+            model = {
+                ID_ORGANIZATION: ParamOrgID,
+                id_user: UID[0].Id_User,
+                Id_Assessment: null,
+                Id_Game: currentQuestionData.Id_Game,
+                attempt_no: currentQuestionData.allow_attempt,
+                id_question: currentQuestionData.Id_Assessment_question,
+                is_right: null, // Assuming you want to set it to null when selectedOptionIndex is null
+                score: null, // Assuming you want to set it to null when selectedOptionIndex is null
+                Id_Assessment_question_ans: null,
+                Time: currentQuestionData.Timer,
+                M2ostAssessmentId: M2OstAssesmentID
+            };
+            modelForGameMasterLog = {
+                ID_ORGANIZATION: ParamOrgID,
+                id_user: UID[0].Id_User,
+                Id_Room: mergedData[0].Id_Assessment,
+                Id_Game: mergedData[0].Id_Game,
+                attempt_no: mergedData[0].allow_attempt,
+                score: score,
+            };
+            saveAssessmentData.push(model);
+            assementDataForMasterLog.push(modelForGameMasterLog);
         }
 
-        // Add API calls here
-        saveAssessment(saveAssessmentData);
-        saveAssessmentMasterLog(assementDataForMasterLog[assementDataForMasterLog.length - 1]);
-    
+    }
+    // Add API calls here
+    saveAssessment(saveAssessmentData);
+    saveAssessmentMasterLog(assementDataForMasterLog[assementDataForMasterLog.length - 1]);
+
 }
 
-  // Event listener for the continue button
-  document.getElementById("continueButton").addEventListener("click", function () {
-    const selectedOption = document.querySelector('input[name="group"]:checked');
+// if (submitBtn.clicked){
+//   // Event listener for the continue button
+//   let submitBtn = document.getElementById("continueButton").addEventListener("click", function () {
+//     const selectedOption = document.querySelector('input[name="group"]:checked');
     
-    if (selectedOption.checked) {
-      console.log("selectedOption", selectedOption)
-      const selectedOptionIndex = selectedOption.value - 1;
-      const isCorrectOption = currentQuestion.optionList[selectedOptionIndex].Right_Ans;
+//     if (selectedOption.checked) {
+//       const selectedOptionIndex = selectedOption.value - 1;
+//       const isCorrectOption = currentQuestion.optionList[selectedOptionIndex].Right_Ans;
   
-      if (isCorrectOption === 1) {
-        // Increase score by 10 points since the selected option is correct
-        score += 10;
-      } else { 
-        score += 0;
-      }
-      assessmentData.push({
-        ...currentQuestion,
-        selectedOptionIndex: selectedOptionIndex,
-      });
+//       if (isCorrectOption === 1) {
+//         // Increase score by 10 points since the selected option is correct
+//         score += 10;
+//       } else { 
+//         score += 0;
+//       }
+//       assessmentData.push({
+//         ...currentQuestion,
+//         selectedOptionIndex: selectedOptionIndex,
+//       });
   
-      closeModal();
-      index++;
-      clearInterval(timerInterval); 
-        //   displayQuestion();
+//       closeModal();
+//       index++;
+//       clearInterval(timerInterval); 
+//         //   displayQuestion();
+//         if (index === questionList.length) {
+//             onGameOver(); // Call onGameOver after removing the event listener
+//         } else {
+//             displayQuestion();
+//         }
+//     } else {
+//       document.getElementById("error-text").textContent = "Please select an option.";
+//       selectedOption = false
+
+//     }
+//     console.log("selectedOption", selectedOption.checked)
+
+//   });
+  
+// } else{
+//     assessmentData.push({
+//         ...currentQuestion,
+//         selectedOptionIndex: null,
+//       });
+// }
+let submitBtn = document.getElementById("continueButton");
+
+// Event listener for the continue button
+submitBtn.addEventListener("click", function () {
+    const selectedOption = document.querySelector('input[name="group"]:checked');
+
+    if (selectedOption) {
+        const selectedOptionIndex = selectedOption.value - 1;
+        const isCorrectOption = currentQuestion.optionList[selectedOptionIndex].Right_Ans;
+
+        if (isCorrectOption === 1) {
+            // Increase score by 10 points since the selected option is correct
+            score += 10;
+        } else {
+            score += 0;
+        }
+        assessmentData.push({
+            ...currentQuestion,
+            selectedOptionIndex: selectedOptionIndex,
+        });
+
+        closeModal();
+        index++;
+        clearInterval(timerInterval);
+
         if (index === questionList.length) {
             onGameOver(); // Call onGameOver after removing the event listener
         } else {
             displayQuestion();
         }
     } else {
-      document.getElementById("error-text").textContent = "Please select an option.";
+        document.getElementById("error-text").textContent = "Please select an option.";
     }
-  });
-  
+});
+
+// Check if the submit button is not clicked
+if (!submitBtn.clicked) {
+    // Do something when the submit button is not clicked
+    assessmentData.push({
+        ...currentQuestion,
+        selectedOptionIndex: null,
+    });
+}
 
 
   
