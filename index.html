@@ -7,17 +7,25 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="./css/bootstrap.min.css" >
+    <link rel="stylesheet" href="./css/mediaquerry.css">
     <title>Whack-a-Mole</title>
 </head>
 <body>
+  
   <!-- Start Page -->
-<div class="container-fluid start-page">
-  <h1>Welcome to Whack-a-Mole Game</h1>
-  <p>Hit as many moles as you can within the time limit! Are you ready?</p>
-  <button id="startButton" class="btn btn-success" onclick="startGame()">Start Game</button>
+<div class="start-page" id="start-page">
+  <img id="playBtn" src="../assets/play_button.png" alt="play_btn" onclick="gameplay()">
 </div>
+
+<!-- Welcome Popup -->
+<div id="welcomePopup" class="welcome hide">
+  <span class="close" onclick="closeWelcomePopup()">&times;</span>
+  <img src="./assets/Instructions_New.png" alt="Popup Image" class="no-blur">
+</div>
+
+  
 <!-- Game Page -->
-<div class="container-fluid  whack-a-mole-container">
+<div class="container-fluid  whack-a-mole-container" id="game-container">
   <div class="board">
       <div class="hole"></div>
       <div class="hole"></div>
@@ -29,12 +37,13 @@
       <div class="hole"></div>
       <div class="hole"></div>
   </div>
-  <div class="cursor" style="display: none;">
+  <div class="cursor">
   </div>
+  <div id="score" class="score-box">Score: 0</div>
   <div class="modal" tabindex="-1" role="dialog" id="questionModal"  data-backdrop="static"> 
     <div class="modal-dialog modal-dialog-centered custom-modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">               
+        <div class="modal-content" id="modal-content-border">
+            <div class="modalheader">               
                 <div class="timerContainer">
                   <div id="timer">
                   </div>
@@ -47,12 +56,20 @@
             <div class="radio-container">
             </div>
             <div id="error-text"></div>
-            <div class="modal-footer">
+            <div class="modalfooter">
                 <button type="button" id="continueButton" class="btn btn-secondary" >Submit</button>
             </div>
         </div>
     </div>
 </div>
- <script src="./js/main.js"></script>
+
+<!-- Game Over Popup -->
+<div id="gameOverPopup" class="popup1 hide">
+  <!-- <span class="close" onclick="closeGameOverPopup()">&times;</span> -->
+  <img src="./assets/Game_Over.png" alt="Game Over Image">
+</div>
+
+ <!-- <script src="./js/main.js"></script> -->
+ <script src="./js/script.js"></script> 
 </body>
 </html>

@@ -1,0 +1,25 @@
+@media only screen and (max-width: 767px){
+    .start-page{
+        background-image: url(../assets/Start_Screen_Vertical.png);
+    }
+    .start-page img{
+        height: 12vh;
+        width: auto;
+    }
+    .welcome img{
+        height: 35vh;
+        width: 90vw;
+    }
+    .board{
+        height: 50vh;
+        width: 85vw;
+    }
+    .cursor{
+        height: 15vh;
+        width: 30vw;
+    }
+    .popup1 img {
+        width: 80vw;
+        height: 30vh;
+    }
+}

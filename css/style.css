@@ -6,37 +6,95 @@ html, body{
     height: 100%;
     overflow: hidden;
 }
-
-.whack-a-mole-container{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(58, 129, 0);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
+.welcome {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: white; Add a background color to make the popup visible */
+    padding: 20px; /* Add padding for better appearance */
+    z-index: 2; /* Ensure the popup appears above other elements */
 }
+
+.welcome .close {
+    position: absolute;
+    top: 4%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.welcome img {
+    width: 70vw;
+    height: auto;
+}
+
+.start-page {
+    position: relative;
+}
+
+.blur {
+    filter: blur(10px);
+}
+
+.hide {
+    display: none;
+}
+
 .start-page{
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(58, 129, 0);
-    color: #fff;
+    background-image: url('../assets/Start_Screen.png');
+    color: #000;
     display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: end;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    background-position: center center;    
+}
+.start-page img{
+    height: 15vh;
+    width: 25w;
+    cursor: pointer;
+    
+}
+.whack-a-mole-container{
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-color: rgb(58, 129, 0); */
+    background-size: cover;
+    background-image: url(../assets/Whack-A-Mole_BG.png);
+    color: #fff;
+    /* display: flex; */
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
-.score{
-    margin-bottom: 2rem;
-}
+
+.score-box,#file {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    background-color: #fff; 
+    font-family: cursive;
+    padding: 0.3rem 0.5rem;
+    border: 0.3rem solid rgb(165, 85, 11); 
+    border-radius: 1rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    z-index: 1; 
+    color: rgb(165, 85, 11);
+  }
 .board{
-    height: 300px; 
-    width: 300px;
+    height: 60vh; 
+    width: 60vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -52,7 +110,7 @@ html, body{
     overflow: hidden;
 }
 .hole .mole{
-    width: 70%;
+    width: 100%;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -74,13 +132,13 @@ html, body{
 }
 
 .cursor{
-    height: 80px;
-    width: 70px;
+    height: 15vh;
+    width: 7vw;
     position: absolute;
     top: 100px;
     left: 100px;
     /* background-image: url('.assets/hammer.png'); */
-    background-image: url('../assets/hammer.png');
+    background-image: url('../assets/new_hammer.png');
     background-size: 100% 100%;
     transform: translate(-20%, -20%);
     transition: transform .1s;
@@ -101,28 +159,30 @@ html, body{
  }
  
  .modal-content {
- /* background-color: #aae4f3;  */
  background-color: white;
- border-radius: 50px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow */
- background-size: cover; /* or 'contain' based on your preference */
- border: 5px solid rgb(58, 129, 0);
- /* border-radius: 10px; */
- /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
- width:100%; /* Set your desired width */
+ background-size: cover;
+ width:100%; 
  max-width: 100%; 
- /* height: 22vh; */
  
  }
  
- 
- 
- .modal-header {
- /* border-radius: 50px; */
- height: 9vh;
- overflow: hidden;
- width: 100%;
+ #modal-content-border{
+    border: 0.3rem solid rgb(139,69,19);
+    border-radius: 2rem;
  }
+ 
+ .modalheader {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: end;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+    border-radius: 2rem;
+
+}
  
  
  
@@ -188,8 +248,8 @@ html, body{
    width: 100%;
    box-sizing: border-box;
    animation: fadeInLeft 0.5s ease;
-   border: 5px solid rgb(58, 129, 0);
-   font-weight: 600;
+   border: 0.3rem solid rgb(58, 129, 0);
+   font-weight: 400;
 }
  
  .radio-container label:hover {
@@ -213,19 +273,9 @@ html, body{
     background-color:rgb(58, 129, 0);
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     text-align: center;
  }
- 
- 
- #error-text {
- color: #c30202; 
- font-size: 1rem; 
- /* margin-top: 10px;  */
- font-weight: 500;
- text-align: center;
- }
- 
  
  .hide {
     display: none;
@@ -240,7 +290,7 @@ html, body{
  }
  
  #questionText {
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0.1rem;
     color: white;
     text-align: left;
@@ -258,16 +308,14 @@ html, body{
     color: #0c0b0b;
     font-size: 1.3em;
     background-color: white;
-    border: 5px solid rgb(58, 129, 0); 
     box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
-    border-radius: 30px;
     width: 30%;
     height: 7vh;
     display: flex;
     justify-content: center;
     align-items: center;
     animation: fadeInLeft 0.5s ease;
-    
+    border-radius: 2rem;  
  }
  
  
@@ -275,18 +323,23 @@ html, body{
     text-align: center;
  }
 
- #error-text {
-    color: #f01111;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
- }
-
- /* .modal-footer {
+ /* .modal-footer align {
     display: flex;
     justify-content: center;
     align-items: center;
   } */
+
+  .modalfooter {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem;
+    border-top: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-radius: 2rem;
+    
+}
 
   #timer-icon {
    width: 5vh;
@@ -295,3 +348,23 @@ html, body{
    left:0%;
    z-index: 1;
    }
+
+
+   .popup1 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Ensure the popup appears above other elements */
+
+}
+
+.popup1 img {
+    width: 60vw;
+    height: 60vh;
+}
+
+/* Add the following style to keep the blur effect */
+/* .blur {
+    filter: blur(10px);
+} */
