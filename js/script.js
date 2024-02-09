@@ -157,7 +157,7 @@ function gameplay() {
 
 function run() {
   if (!gameStarted) {
-    return; // If the game has not started, exit the function
+    return; 
   }
 
   const i = Math.floor(Math.random() * holes.length);
@@ -174,7 +174,7 @@ function run() {
     gameStarted = false;
     setTimeout(() => {
       openModal();
-    }, 1000);
+    }, 1300);
 
     clearTimeout(timer);
     setTimeout(() => {
@@ -189,7 +189,7 @@ function run() {
   timer = setTimeout(() => {
     hole.removeChild(img);
     run();
-  }, 1200);
+  }, 1000);
 }
 
 // Mousemove event for desktop
