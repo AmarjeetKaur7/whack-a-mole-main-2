@@ -2,7 +2,7 @@ const cursor = document.querySelector(".cursor");
 const holes = [...document.querySelectorAll(".hole")];
 let score = 0;
 const timerElement = document.getElementById("timer");
-let timerSeconds = 10;
+let timerSeconds = 60;
 var url = new URL(window.location.href);
 var urlParams = new URLSearchParams(window.location.search);
 let paramUserID = urlParams.get("Email");
@@ -198,32 +198,32 @@ window.addEventListener("mousemove", (e) => {
   cursor.style.left = e.pageX + "px";
 });
 
-// Touchmove event for mobile
-window.addEventListener("touchmove", (e) => {
-  const touch = e.touches[0];
-  cursor.style.top = touch.pageY + "px";
-  cursor.style.left = touch.pageX + "px";
-});
+// // Touchmove event for mobile
+// window.addEventListener("touchmove", (e) => {
+//   const touch = e.touches[0];
+//   cursor.style.top = touch.pageY + "px";
+//   cursor.style.left = touch.pageX + "px";
+// });
 
 // Mousedown event for both desktop and mobile
 window.addEventListener("mousedown", () => {
   cursor.classList.add("active");
 });
 
-// Touchstart event for mobile
-window.addEventListener("touchstart", () => {
-  cursor.classList.add("active");
-});
+// // Touchstart event for mobile
+// window.addEventListener("touchstart", () => {
+//   cursor.classList.add("active");
+// });
 
 // Mouseup event for both desktop and mobile
 window.addEventListener("mouseup", () => {
   cursor.classList.remove("active");
 });
 
-// Touchend event for mobile
-window.addEventListener("touchend", () => {
-  cursor.classList.remove("active");
-});
+// // Touchend event for mobile
+// window.addEventListener("touchend", () => {
+//   cursor.classList.remove("active");
+// });
 
 // Function to open the question modal on hit 
 function openModal() {
@@ -249,7 +249,7 @@ document.getElementById("timer").innerHTML = "10 sec";
 
 // Function to start the timer
 function startTimer() {
-  let timer = 10;
+  let timer = 60;
   // Function to update the timing whenever new question appears
   function updateTimerDisplay() {
     document.getElementById("timer").innerHTML = `${timer} Sec`;
