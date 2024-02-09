@@ -82,12 +82,12 @@ html, body{
     background-color: #fff; 
     font-family: cursive;
     padding: 0.3rem 0.5rem;
-    border: 0.3rem solid rgb(165, 85, 11); 
+    border: 0.3rem solid rgb(58, 129, 0); 
     border-radius: 1rem;
     font-weight: bold;
     font-size: 1.5rem;
     z-index: 1; 
-    color: rgb(165, 85, 11);
+    color: rgb(58, 129, 0);
   }
 .board{
     height: 60vh; 
@@ -162,7 +162,7 @@ html, body{
  }
  
  #modal-content-border{
-    border: 0.3rem solid rgb(139,69,19);
+    border: 0.3rem solid rgb(58, 129, 0);
     border-radius: 2rem;
  }
  
@@ -300,19 +300,23 @@ html, body{
 
  
  .timerContainer {
-    color: #0c0b0b;
+    color: rgb(58, 129, 0);
     font-size: 1.3em;
     background-color: white;
-    box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
-    width: 30%;
-    height: 7vh;
+    width: 35%;
+    height: 8vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     animation: fadeInLeft 0.5s ease;
     border-radius: 2rem;  
+    border: 0.3rem solid rgb(58, 129, 0);
+    position: relative;
  }
- 
+ .gifContainer{
+    height: 7vh;
+    width: 4.5vw;
+ }
  
  .modal-body {
     text-align: center;

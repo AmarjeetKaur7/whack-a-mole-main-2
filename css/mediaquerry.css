@@ -22,6 +22,14 @@
         right: 7%;
         top: 1%;
     }
+    .timerContainer{
+        height: 8vh;
+        width: 40%;
+    }
+    .gifContainer {
+        height: 7vh;
+        width: 11vw;
+    }
     .board{
         height: 50vh;
         width: 85vw;
@@ -33,4 +41,5 @@
         width: 80vw;
         height: 30vh;
     }
+
 }
