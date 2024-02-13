@@ -1,3 +1,4 @@
+// variables assigned
 const cursor = document.querySelector(".cursor");
 const holes = [...document.querySelectorAll(".hole")];
 let score = 0;
@@ -22,11 +23,16 @@ let selectedOptionData = null;
 let submitBtn;
 let isPopupOpen = false;
 let gameStarted = false;
+const sound = new Audio("../sound/ham_sound.mp3");
+const afterHitSound = new Audio("../sound/smash_sound.mp3");
 
+
+// shows instruction popup on page load
 window.onload = function () {
   showWelcomePopup();
 };
 
+// Function to show instruction before game start
 function showWelcomePopup() {
   let startPage = document.getElementById("start-page");
   startPage.classList.add("blur");
@@ -34,12 +40,15 @@ function showWelcomePopup() {
   document.getElementById("playBtn").style.display = "none";
 }
 
+// Function to close the start instruction and start the game
 function closeWelcomePopup() {
   let startPage = document.getElementById("start-page");
   startPage.classList.remove("blur");
   document.getElementById("welcomePopup").classList.add("hide");
   document.getElementById("playBtn").style.display = "block";
 }
+
+// Function to show the gameOver popup
 function showGameOverPopup() {
   document.getElementById("gameOverPopup").style.display = "block";
   document.querySelector(".board").style.display = "none";
@@ -47,6 +56,8 @@ function showGameOverPopup() {
   gameStarted = false;
 }
 
+
+// 
 async function getIdUser(
   url = `https://www.playtolearn.in/Mini_games_Beta/api/UserDetail?OrgId=${ParamOrgID}&Email=${paramUserID}`
 ) {
@@ -55,7 +66,6 @@ async function getIdUser(
     const encryptedData = await response.json();
     const IdUser = JSON.parse(encryptedData);
     console.log(IdUser);
-    // console.log(encryptedData);
     UID.push(IdUser);
     console.log(UID[0].Id_User);
     getDetails();
@@ -67,7 +77,7 @@ async function getIdUser(
 }
 
 async function getDetails(
-  url = `https://www.playtolearn.in/Mini_games_Beta/api/GetAssessmentDataList?OrgID=${ParamOrgID}&UID=${UID[0].Id_User}&M2ostAssessmentId=0&idgame=${id_game}&gameassid=${gameAssesmentId}`
+  url = `https://www.playtolearn.in/Mini_games_Beta/api/GetAssessmentDataList?OrgID=${ParamOrgID}&UID=${UID[0].Id_User}&M2ostAssessmentId=${M2OstAssesmentID}&idgame=${id_game}&gameassid=${gameAssesmentId}`
 ) {
   try {
     const response = await fetch(url, { method: "GET" });
@@ -119,7 +129,7 @@ async function saveAssessment(data) {
     throw error;
   }
 }
-
+ 
 async function saveAssessmentMasterLog(data) {
   try {
     let postData = data;
@@ -143,10 +153,9 @@ async function saveAssessmentMasterLog(data) {
   }
 }
 
-const sound = new Audio("../sound/ham_sound.mp3");
-const afterHitSound = new Audio("../sound/smash_sound.mp3");
 
 
+// Function to play the game 
 function gameplay() {
   gameStarted = true; // Set the gameStarted variable to true
   document.querySelector(".start-page").style.display = "none";
@@ -155,6 +164,7 @@ function gameplay() {
   run();
 }
 
+// Function contains game logic 
 function run() {
   if (!gameStarted) {
     return; 
@@ -322,10 +332,11 @@ function displayQuestion() {
         const imageElement = document.createElement("img");
         imageElement.src = imageUrl;
         imageElement.alt = "Image Alt Text";
-        imageElement.style.width = "100%";
-        imageElement.style.maxWidth = "100%";
-        imageElement.style.height = "24vh";
-        imageElement.style.borderRadius = "10px";
+        // imageElement.style.width = "100%";
+        // imageElement.style.maxWidth = "100%";
+        // imageElement.style.height = "24vh";
+        // imageElement.style.borderRadius = "10px";
+        imageElement.classList.add("assessment-image"); // Add class
         contentDiv.appendChild(imageElement);
         break;
 
@@ -344,9 +355,10 @@ function displayQuestion() {
         const videoElement = document.createElement("video");
         videoElement.controls = true;
         videoElement.src = videoUrl;
-        videoElement.style.width = "100%";
-        videoElement.style.maxWidth = "100%";
-        videoElement.style.height = "22vh";
+        // videoElement.style.width = "100%";
+        // videoElement.style.maxWidth = "100%";
+        // videoElement.style.height = "22vh";
+        videoElement.classList.add("assessment-video"); // Add class
         contentDiv.appendChild(videoElement);
         break;
 
@@ -356,7 +368,6 @@ function displayQuestion() {
     }
   } else {
     // If there are no more questions, display "Game Over" message
-    // document.querySelector("#questionModal").style.display = "none";
     onGameOver();
     questionText.textContent = "Game Over.All questions displayed.";
     optionsContainer.innerHTML = ""; // Clear any previous options
@@ -370,6 +381,7 @@ function displayQuestion() {
   }
 }
 
+// Function to store the details in the post api called above on gameOver 
 function onGameOver() {
   // Check if all questions have been answered
   let saveAssessmentData = [];
@@ -476,7 +488,42 @@ submitBtn = document
     }
   });
 
+// Function to update the score and also to show current scoring  
 function updateScoreDisplay() {
   const scoreElement = document.getElementById("score");
   scoreElement.textContent = `Score: ${score}`;
 }
+
+
+let isPaused = false;
+
+// Function to handle page visibility change
+function handleVisibilityChange() {
+  if (document.hidden) {
+    // If the page is hidden (user switched tabs or minimized browser), pause the game
+    pauseGame();
+  } else {
+    // If the page is visible again, resume the game
+    resumeGame();
+  }
+}
+
+// Function to pause the game
+function pauseGame() {
+  // Pause any game timers or animations
+  isPaused = true;
+}
+
+// Function to resume the game
+function resumeGame() {
+  // Resume any paused timers or animations
+  isPaused = false;
+  
+  // Ensure the game continues running if it was running before being paused
+  if (gameStarted) {
+    run(); // Restart the game logic
+  }
+}
+
+// Add event listener for visibility change
+document.addEventListener("visibilitychange", handleVisibilityChange);

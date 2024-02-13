@@ -367,3 +367,17 @@ html, body{
 /* .blur {
     filter: blur(10px);
 } */
+
+
+.assessment-image {
+    width: 100%;
+    max-width: 100%;
+    height: 24vh;
+    border-radius: 10px;
+}
+.assessment-video {
+width: 100%;
+max-width: 100%;
+height: 22vh;
+}
+  
